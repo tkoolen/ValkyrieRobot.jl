@@ -1,5 +1,8 @@
 using ValkyrieRobot
+using RigidBodyTreeInspector
 using Base.Test
 
-# write your own tests here
-@test 1 == 2
+val = Valkyrie()
+DrakeVisualizer.any_open_windows() || DrakeVisualizer.new_window()
+geometries = parse_urdf(ValkyrieRobot.urdfpath(), val.mechanism; package_path = [ValkyrieRobot.packagepath()]);
+@test length(geometries) == 81
