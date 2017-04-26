@@ -96,6 +96,7 @@ type Valkyrie{T}
     feet::Dict{Side, RigidBody{T}}
     palms::Dict{Side, RigidBody{T}}
     pelvis::RigidBody{T}
+    head::RigidBody{T}
     hippitches::Dict{Side, Joint{T}}
     knees::Dict{Side, Joint{T}}
     anklepitches::Dict{Side, Joint{T}}
@@ -114,6 +115,9 @@ type Valkyrie{T}
 
         # pelvis
         pelvis = findbody(mechanism, "pelvis")
+
+        # head
+        head = findbody(mechanism, "head")
 
         # floating joint
         pelvis_to_world = joint_to_parent(pelvis, mechanism)
@@ -148,7 +152,7 @@ type Valkyrie{T}
             add_contact_point!(foot, ContactPoint(Point3D(frame, 0.172, flipsign_if_right(-0.55, side), z), contactmodel))
         end
 
-        new(mechanism, feet, hands, pelvis, hippitches, knees, anklepitches, pelvis_to_world)
+        new(mechanism, feet, hands, pelvis, head, hippitches, knees, anklepitches, pelvis_to_world)
     end
 end
 
