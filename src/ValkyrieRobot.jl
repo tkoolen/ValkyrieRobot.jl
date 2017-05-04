@@ -88,7 +88,7 @@ const meshpaths = ["urdf/model/meshes/arms/aj1_left.obj";
     "urdf/model/meshes/torso/torsoyaw.obj"]
 
 function default_contact_model()
-    SoftContactModel(hunt_crossley_hertz(k = 100e3), ViscoelasticCoulombModel(0.8, 20e3, 10.))
+    SoftContactModel(hunt_crossley_hertz(k = 500e3), ViscoelasticCoulombModel(0.8, 20e3, 100.))
 end
 
 type Valkyrie{T}
