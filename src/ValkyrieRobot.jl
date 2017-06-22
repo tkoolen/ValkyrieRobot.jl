@@ -102,7 +102,7 @@ type Valkyrie{T}
     anklepitches::Dict{Side, Joint{T}}
     floatingjoint::Joint{T}
 
-    function Valkyrie(; contactmodel = default_contact_model())
+    function (::Type{Valkyrie{T}}){T}(; contactmodel = default_contact_model())
         valkyrie_examples_url = "https://raw.githubusercontent.com/RobotLocomotion/drake/6e3ca768cbaabf15d0f2bed0fb5bd703fa022aa5/drake/examples/Valkyrie"
         urdf_url = valkyrie_examples_url * "/urdf/urdf/valkyrie_A_sim_drake_one_neck_dof_wide_ankle_rom.urdf"
         urdfdir, urdffile = splitdir(urdfpath())
@@ -152,7 +152,7 @@ type Valkyrie{T}
             add_contact_point!(foot, ContactPoint(Point3D(frame, 0.172, flipsign_if_right(-0.55, side), z), contactmodel))
         end
 
-        new(mechanism, feet, hands, pelvis, head, hippitches, knees, anklepitches, pelvis_to_world)
+        new{T}(mechanism, feet, hands, pelvis, head, hippitches, knees, anklepitches, pelvis_to_world)
     end
 end
 
