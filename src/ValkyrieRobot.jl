@@ -2,12 +2,14 @@ module ValkyrieRobot
 
 using RigidBodyDynamics
 using RigidBodyDynamics.Contact
-using BipedControlUtil
 using StaticArrays
 
 export Valkyrie,
     packagepath,
     urdfpath
+
+include("bipedcontrolutil.jl")
+using .BipedControlUtil
 
 const module_tempdir = joinpath(Base.tempdir(), string(module_name(current_module())))
 const datadir = joinpath(module_tempdir, "Valkyrie")
