@@ -122,8 +122,9 @@ type Valkyrie{T}
         head = findbody(mechanism, "head")
 
         # floating joint
-        pelvis_to_world = joint_to_parent(pelvis, mechanism)
-        pelvis_to_world.jointType = QuaternionFloating{Float64}()
+        fixedjoint = joint_to_parent(pelvis, mechanism)
+        floatingjoint = Joint(fixedjoint.name, frame_before(fixedjoint), frame_after(fixedjoint), QuaternionFloating{T}())
+        replace_joint!(mechanism, fixedjoint, floatingjoint)
 
         # extremities
         feet = Dict(side => findbody(mechanism, "$(side)Foot") for side in instances(Side))
@@ -154,7 +155,7 @@ type Valkyrie{T}
             add_contact_point!(foot, ContactPoint(Point3D(frame, 0.172, flipsign_if_right(-0.55, side), z), contactmodel))
         end
 
-        new{T}(mechanism, feet, hands, pelvis, head, hippitches, knees, anklepitches, pelvis_to_world)
+        new{T}(mechanism, feet, hands, pelvis, head, hippitches, knees, anklepitches, floatingjoint)
     end
 end
 
