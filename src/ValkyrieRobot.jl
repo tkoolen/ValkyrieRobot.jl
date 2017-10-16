@@ -27,28 +27,27 @@ type Valkyrie{T}
     hippitches::Dict{Side, Joint{T}}
     knees::Dict{Side, Joint{T}}
     anklepitches::Dict{Side, Joint{T}}
-    floatingjoint::Joint{T}
+    basejoint::Joint{T}
+    soleframes::Dict{Side, CartesianFrame3D}
 
-    function (::Type{Valkyrie{T}}){T}(; contactmodel = default_contact_model())
+    function (::Type{Valkyrie{T}}){T}(; floating = true, contactmodel = default_contact_model())
         mechanism = RigidBodyDynamics.parse_urdf(T, urdfpath())
 
-        # pelvis
+        # salient bodies
         pelvis = findbody(mechanism, "pelvis")
-
-        # head
         head = findbody(mechanism, "head")
-
-        # floating joint
-        fixedjoint = joint_to_parent(pelvis, mechanism)
-        floatingjoint = Joint(fixedjoint.name, frame_before(fixedjoint), frame_after(fixedjoint), QuaternionFloating{T}())
-        replace_joint!(mechanism, fixedjoint, floatingjoint)
-
-        # extremities
         feet = Dict(side => findbody(mechanism, "$(side)Foot") for side in instances(Side))
         hands = Dict(side => findbody(mechanism, "$(side)Palm") for side in instances(Side))
-        # TODO: amputate fingers
 
-        # relevant joints
+        # base joint
+        basejoint = joint_to_parent(pelvis, mechanism)
+        if floating
+            floatingjoint = Joint(basejoint.name, frame_before(basejoint), frame_after(basejoint), QuaternionFloating{T}())
+            replace_joint!(mechanism, basejoint, floatingjoint)
+            basejoint = floatingjoint
+        end
+
+        # salient joints
         hippitches = Dict(side => findjoint(mechanism, "$(side)HipPitch") for side in instances(Side))
         knees = Dict(side => findjoint(mechanism, "$(side)KneePitch") for side in instances(Side))
         anklepitches = Dict(side => findjoint(mechanism, "$(side)AnklePitch") for side in instances(Side))
@@ -72,7 +71,7 @@ type Valkyrie{T}
             add_contact_point!(foot, ContactPoint(Point3D(frame, 0.172, flipsign_if_right(-0.55, side), z), contactmodel))
         end
 
-        new{T}(mechanism, feet, hands, pelvis, head, hippitches, knees, anklepitches, floatingjoint)
+        new{T}(mechanism, feet, hands, pelvis, head, hippitches, knees, anklepitches, basejoint, soleframes)
     end
 end
 

@@ -3,12 +3,6 @@ using ValkyrieRobot.BipedControlUtil
 using RigidBodyTreeInspector
 using Base.Test
 
-@testset "load geometries" begin
-    val = Valkyrie()
-    geometries = parse_urdf(ValkyrieRobot.urdfpath(), val.mechanism; package_path = [ValkyrieRobot.packagepath()]);
-    @test length(geometries) == 81
-end
-
 @testset "side" begin
     @test -left == right
     @test -right == left
@@ -18,4 +12,10 @@ end
 
     @test flipsign_if_right(2., left) == 2.
     @test flipsign_if_right(2., right) == -2.
+end
+
+@testset "load geometries" begin
+    val = Valkyrie()
+    geometries = parse_urdf(ValkyrieRobot.urdfpath(), val.mechanism; package_path = [ValkyrieRobot.packagepath()]);
+    @test length(geometries) == 81
 end
