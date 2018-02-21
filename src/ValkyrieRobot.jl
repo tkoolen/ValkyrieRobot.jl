@@ -12,7 +12,7 @@ include("bipedcontrolutil.jl")
 using .BipedControlUtil
 
 packagepath() = Pkg.dir("ValkyrieRobot", "deps")
-urdfpath() = joinpath(packagepath(), "Valkyrie", "valkyrie.urdf")
+urdfpath() = joinpath(packagepath(), "valkyrie", "valkyrie.urdf")
 
 function default_contact_model()
     SoftContactModel(hunt_crossley_hertz(k = 500e3), ViscoelasticCoulombModel(0.8, 20e3, 100.))
