@@ -1,5 +1,5 @@
-datadir = "Valkyrie"
-valkyrie_examples_url = "https://raw.githubusercontent.com/RobotLocomotion/drake/6e3ca768cbaabf15d0f2bed0fb5bd703fa022aa5/drake/examples/Valkyrie/"
+datadir = "valkyrie"
+valkyrie_examples_url = "https://raw.githubusercontent.com/rdeits/drake/eb1dc0ff1b263772e26e177566479c9d17571e7d/examples/valkyrie/"
 urdfpath = "urdf/urdf/valkyrie_A_sim_drake_one_neck_dof_wide_ankle_rom.urdf"
 meshpaths = ["urdf/model/meshes/arms/aj1_left.obj";
     "urdf/model/meshes/arms/aj1_right.obj";
