@@ -18,7 +18,7 @@ function default_contact_model()
     SoftContactModel(hunt_crossley_hertz(k = 500e3), ViscoelasticCoulombModel(0.8, 20e3, 100.))
 end
 
-type Valkyrie{T}
+mutable struct Valkyrie{T}
     mechanism::Mechanism{T}
     feet::Dict{Side, RigidBody{T}}
     palms::Dict{Side, RigidBody{T}}
@@ -30,7 +30,7 @@ type Valkyrie{T}
     basejoint::Joint{T}
     soleframes::Dict{Side, CartesianFrame3D}
 
-    function (::Type{Valkyrie{T}}){T}(; floating = true, contactmodel = default_contact_model())
+    function Valkyrie{T}(; floating = true, contactmodel = default_contact_model()) where T
         mechanism = RigidBodyDynamics.parse_urdf(T, urdfpath())
 
         # salient bodies
@@ -75,6 +75,6 @@ type Valkyrie{T}
     end
 end
 
-Valkyrie{T}(::Type{T} = Float64; kwargs...) = Valkyrie{T}(; kwargs...)
+Valkyrie(::Type{T} = Float64; kwargs...) where {T} = Valkyrie{T}(; kwargs...)
 
 end # module
