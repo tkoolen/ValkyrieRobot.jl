@@ -1,5 +1,6 @@
 module ValkyrieRobot
 
+using Compat
 using RigidBodyDynamics
 using RigidBodyDynamics.Contact
 using StaticArrays
@@ -11,7 +12,7 @@ export Valkyrie,
 include("bipedcontrolutil.jl")
 using .BipedControlUtil
 
-packagepath() = Pkg.dir("ValkyrieRobot", "deps")
+packagepath() = joinpath(@__DIR__, "..", "deps")
 urdfpath() = joinpath(packagepath(), "valkyrie", "valkyrie.urdf")
 
 function default_contact_model()
