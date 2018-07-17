@@ -78,4 +78,11 @@ end
 
 Valkyrie(::Type{T} = Float64; kwargs...) where {T} = Valkyrie{T}(; kwargs...)
 
+
+function __init__()
+    if !isfile(urdfpath())
+        error("Could not find $(urdfpath()). Please run `Pkg.build(\"ValkyrieRobot\")`.")
+    end
+end
+
 end # module
