@@ -1,5 +1,6 @@
 module ValkyrieRobot
 
+using Compat
 using RigidBodyDynamics
 using RigidBodyDynamics.Contact
 using StaticArrays
@@ -11,7 +12,7 @@ export Valkyrie,
 include("bipedcontrolutil.jl")
 using .BipedControlUtil
 
-packagepath() = Pkg.dir("ValkyrieRobot", "deps")
+packagepath() = joinpath(@__DIR__, "..", "deps")
 urdfpath() = joinpath(packagepath(), "valkyrie", "valkyrie.urdf")
 
 function default_contact_model()
@@ -76,5 +77,12 @@ mutable struct Valkyrie{T}
 end
 
 Valkyrie(::Type{T} = Float64; kwargs...) where {T} = Valkyrie{T}(; kwargs...)
+
+
+function __init__()
+    if !isfile(urdfpath())
+        error("Could not find $(urdfpath()). Please run `Pkg.build(\"ValkyrieRobot\")`.")
+    end
+end
 
 end # module

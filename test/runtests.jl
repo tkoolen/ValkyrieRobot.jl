@@ -1,7 +1,7 @@
 using ValkyrieRobot
 using ValkyrieRobot.BipedControlUtil
-using RigidBodyTreeInspector
-using Base.Test
+using MechanismGeometries
+using Compat.Test
 
 @testset "side" begin
     @test -left == right
@@ -16,6 +16,7 @@ end
 
 @testset "load geometries" begin
     val = Valkyrie()
-    geometries = parse_urdf(ValkyrieRobot.urdfpath(), val.mechanism; package_path = [ValkyrieRobot.packagepath()]);
-    @test length(geometries) == 81
+    visuals = URDFVisuals(ValkyrieRobot.urdfpath(); package_path = [ValkyrieRobot.packagepath()])
+    meshgeometry = visual_elements(val.mechanism, visuals)
+    @test length(meshgeometry) == 81
 end

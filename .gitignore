@@ -3,3 +3,5 @@
 *.jl.mem
 deps/Valkyrie
 deps/valkyrie
+deps/build.log
+
