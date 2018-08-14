@@ -1,7 +1,7 @@
 using ValkyrieRobot
 using ValkyrieRobot.BipedControlUtil
-using MechanismGeometries
 using Compat.Test
+using RigidBodyDynamics: num_velocities
 
 @testset "side" begin
     @test -left == right
@@ -14,9 +14,18 @@ using Compat.Test
     @test flipsign_if_right(2., right) == -2.
 end
 
-@testset "load geometries" begin
+@testset "valkyrie" begin
     val = Valkyrie()
-    visuals = URDFVisuals(ValkyrieRobot.urdfpath(); package_path = [ValkyrieRobot.packagepath()])
-    meshgeometry = visual_elements(val.mechanism, visuals)
-    @test length(meshgeometry) == 81
+    @test num_velocities(val.mechanism) == 36
+    meshdir = joinpath(dirname(ValkyrieRobot.urdfpath()), "urdf", "model", "meshes")
+
+    num_obj = 0
+    for (root, dirs, files) in walkdir(meshdir)
+        for file in files
+            if endswith(file, ".obj")
+                num_obj += 1
+            end
+        end
+    end
+    @test num_obj == 60
 end
