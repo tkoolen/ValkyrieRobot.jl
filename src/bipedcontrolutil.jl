@@ -1,6 +1,6 @@
 # TODO: should probably be elsewhere
 module BipedControlUtil
-using Compat.Random
+using Random
 
 export
     Side,

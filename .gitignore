@@ -4,4 +4,5 @@
 deps/Valkyrie
 deps/valkyrie
 deps/build.log
+/Manifest.toml
 

@@ -1,6 +1,6 @@
 using ValkyrieRobot
 using ValkyrieRobot.BipedControlUtil
-using Compat.Test
+using Test
 using RigidBodyDynamics: num_velocities
 
 @testset "side" begin

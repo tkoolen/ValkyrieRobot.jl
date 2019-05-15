@@ -1,6 +1,5 @@
 module ValkyrieRobot
 
-using Compat
 using RigidBodyDynamics
 using RigidBodyDynamics.Contact
 using StaticArrays
@@ -32,7 +31,7 @@ mutable struct Valkyrie{T}
     soleframes::Dict{Side, CartesianFrame3D}
 
     function Valkyrie{T}(; floating = true, contactmodel = default_contact_model()) where T
-        mechanism = RigidBodyDynamics.parse_urdf(T, urdfpath())
+        mechanism = RigidBodyDynamics.parse_urdf(urdfpath(); scalar_type=T, floating=floating, remove_fixed_tree_joints=false)
 
         # salient bodies
         pelvis = findbody(mechanism, "pelvis")
@@ -42,11 +41,6 @@ mutable struct Valkyrie{T}
 
         # base joint
         basejoint = joint_to_parent(pelvis, mechanism)
-        if floating
-            floatingjoint = Joint(basejoint.name, frame_before(basejoint), frame_after(basejoint), QuaternionFloating{T}())
-            replace_joint!(mechanism, basejoint, floatingjoint)
-            basejoint = floatingjoint
-        end
 
         # salient joints
         hippitches = Dict(side => findjoint(mechanism, "$(side)HipPitch") for side in instances(Side))
