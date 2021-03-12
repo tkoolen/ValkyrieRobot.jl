@@ -1,6 +1,6 @@
 name = "ValkyrieRobot"
 uuid = "c74b26e8-f247-5d24-b013-c11a2bbd97c6"
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
@@ -13,6 +13,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 [compat]
 RigidBodyDynamics = "2"
 julia = "1"
+StaticArrays = "0.8, 0.9, 0.10, 0.11, 0.12, 1"
 
 [targets]
 test = ["Test"]
